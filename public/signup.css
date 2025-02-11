@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f7f7f7;
+  }
+
+  .form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .form-container h1 {
+    font-size: 40px;
+    margin-bottom: 30px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: #000000;
+  }
+
+  .form-container p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .form-container input {
+    width: 90%;
+    padding: 10px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #17a97d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .form-container button:hover {
+    background-color: #b6dfd3;
+  }
+
+  .form-container .link {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #17a97d;
+  }
+
+  .form-container .link a {
+    text-decoration: none;
+    color: #17a97d;
+  }
+
+  .form-container .link a:hover {
+    text-decoration: underline;
+  }
+
+  .form-container .divider {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  .form-container .divider::before,
+  .form-container .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+  }
+
+  .form-container .divider span {
+    padding: 0 10px;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .form-container .google-btn {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .form-container .google-btn img {
+    width: 20px;
+    margin-right: 10px;
+  }
