@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Details</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+ 
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .profile-details-container {
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+    }
+    .profile-header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .profile-info {
+      flex-grow: 1;
+    }
+    .profile-info h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    #map {
+      height: 400px;
+      width: 90%;
+      max-width: 600px;
+      margin: 20px 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <h1>Profile Details</h1>
+  <div class="profile-details-container">
+    <div class="profile-header">
+      <img id="profile-image" src="" alt="Profile Image"> <!-- Image will be dynamically updated -->
+      <div class="profile-info">
+        <h2 id="profile-name"></h2>
+        <p id="profile-age"></p>
+        <p id="profile-profession"></p>
+        <p id="profile-preference"></p>
+        <p id="profile-about"></p>
+      </div>
+    </div>
+  </div>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Retrieve profile data from sessionStorage
+    const profileData = JSON.parse(sessionStorage.getItem('profileData'));
+
+    // Populate the profile details
+    document.getElementById('profile-name').textContent = profileData.name;
+    document.getElementById('profile-age').textContent = `Age: ${profileData.age}`;
+    document.getElementById('profile-profession').textContent = profileData.profession;
+    document.getElementById('profile-preference').textContent = `Looking for: ${profileData.preference}`;
+    document.getElementById('profile-about').textContent = profileData.about;
+
+    // Dynamically update the profile image
+    document.getElementById('profile-image').src = profileData.image;
+
+    // Initialize the map
+    const map = L.map('map').setView([39.8283, -98.5795], 4);
+
+    // Add OpenStreetMap tile layer to the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Function to geocode the place and move the map
+    function geocodePlace(place) {
+      var url = `https://nominatim.openstreetmap.org/search?format=json&q=${place}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.length > 0) {
+            var lat = data[0].lat;
+            var lon = data[0].lon;
+            var placeName = data[0].display_name;
+
+            // Move the map and marker to the new location
+            map.setView([lat, lon], 10);
+
+            // Add marker to the map
+            var marker = L.marker([lat, lon]).addTo(map);
+            marker.bindPopup(`<b>${placeName}</b>`).openPopup();
+          } else {
+            alert("Location not found.");
+          }
+        })
+        .catch(error => console.error("Geocoding error:", error));
+    }
+
+    // Geocode the profile location and place a marker
+    geocodePlace(profileData.location);
+  </script>
+</body>
+</html>

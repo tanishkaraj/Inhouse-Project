@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Details</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Roboto:wght@400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 25px;
+            background: url('../assets/r11.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ADD8E6;
+        }
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #000000;
+        }
+        .card label {
+            display: block;
+            font-size: 14px;
+            font-display: bold;
+            margin-bottom: 15px;
+            color: #000000;
+        }
+        textarea, input[type="file"], select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #00c817;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("roomForm");
+
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch("/room/create", {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        alert("Room details stored successfully!");
+                        window.location.href = "quessionaire.html";
+                    } else {
+                        alert("Failed to store room details. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form id="roomForm" enctype="multipart/form-data">
+            <div class="card">
+                <h1>Room Details</h1>
+                <label for="address"><h3>Enter the address:</h3></label>
+                <textarea id="address" name="address" rows="3" placeholder="Enter the address here with state and pincode..." required></textarea>
+
+                <label for="rent"><h3>Enter the room rent:</h3></label>
+                <input type="number" id="rent" name="rent" placeholder="Enter rent amount (₹)" min="5000" max="20000" step="100" required>
+                <p style="font-size: 12px; color: #555;">Rent must be between ₹5,000 - ₹20,000.</p>
+
+                <label for="availableSpacesForRoommates"><h3>Select available spaces for roommates:</h3></label>
+                <select id="availableSpacesForRoommates" name="availableSpacesForRoommates" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+
+                <label for="description"><h3>Describe your room:</h3></label>
+                <textarea id="description" name="description" rows="3" placeholder="Enter the description here (like how many beds are there, washroom is personal or shared)..."></textarea>
+
+                <label for="photos"><h3>Upload photos of the room:</h3></label>
+                <input type="file" id="photos" name="photos" accept="image/*" multiple required>
+                <p style="font-size: 12px; color: #555;">You can upload up to 4 photos. Supported formats: JPEG, PNG.</p>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

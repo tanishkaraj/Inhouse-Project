@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Responses</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Saved Responses</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Profile Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>User Type</th>
+                <th>Languages</th>
+                <th>Address</th>
+                <th>Description</th>
+                <th>Gender Preference</th>
+                <th>Budget</th>
+                <th>Accommodation</th>
+                <th>Pets</th>
+                <th>Smoking</th>
+                <th>Alcohol</th>
+                <th>Cleanliness</th>
+                <th>Quiet Environment</th>
+                <th>Entertain Guests</th>
+            </tr>
+        </thead>
+        <tbody id="responses-table">
+            <!-- Data will be inserted dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchResponses() {
+            try {
+                const response = await fetch('/responses'); // Fetch merged profile & questionnaire data
+                const data = await response.json();
+
+                // Populate Table
+                const tableBody = document.getElementById('responses-table');
+                tableBody.innerHTML = ''; 
+
+                data.forEach(entry => {
+                    const row = `<tr>
+                        <td>${entry.profileName || 'N/A'}</td>
+                        <td>${entry.gender || 'N/A'}</td>
+                        <td>${entry.age || 'N/A'}</td>
+                        <td>${entry.userType || 'N/A'}</td>
+                        <td>${entry.languages ? entry.languages.join(', ') : 'N/A'}</td>
+                        <td>${entry.address || 'N/A'}</td>
+                        <td>${entry.description || 'N/A'}</td>
+                        <td>${entry.genderPreference || 'N/A'}</td>
+                        <td>${entry.roomBudget || 'N/A'}</td>
+                        <td>${entry.accommodationType || 'N/A'}</td>
+                        <td>${entry.pets || 'N/A'}</td>
+                        <td>${entry.smoking || 'N/A'}</td>
+                        <td>${entry.alcohol || 'N/A'}</td>
+                        <td>${entry.cleanliness || 'N/A'}</td>
+                        <td>${entry.quietEnvironment || 'N/A'}</td>
+                        <td>${entry.entertainGuests || 'N/A'}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+
+            } catch (error) {
+                console.error('Error fetching responses:', error);
+            }
+        }
+
+        window.onload = fetchResponses;
+    </script>
+</body>
+</html>
